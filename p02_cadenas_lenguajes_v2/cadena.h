@@ -15,10 +15,8 @@
 // Enlaces de interés /
 // Historial de revisiones:
 // 19/09/2024 - Creación (primera versión) del código
-
 #ifndef CADENA_H
-#define CADENA_Hs
-
+#define CADENA_H
 #include <string>
 #include <set>
 #include <vector>

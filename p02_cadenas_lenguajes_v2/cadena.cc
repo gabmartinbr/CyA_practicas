@@ -58,16 +58,23 @@ std::set<Cadena> Cadena::getPrefijos() const {
   return prefijos;
 }
 // método para obtener prefijos de la forma abc -> {&,a,ab,abc} con la sobrecarga << de lenguaje
-std::set<Cadena> Cadena::getSufijos() const { 
-  std::set<Cadena> sufijos; // conjunto de sufijos
-  Cadena simbolosSufijos; // almacenar cada simbolo de cada prefijo
+std::set<Cadena> Cadena::getSufijos() const {
+    std::set<Cadena> sufijos; // conjunto de sufijos
+    sufijos.insert(Cadena()); // añadir el sufijo vacío (&)
 
-  for (int i = cadena_.size() - 1; i >= 0; i--) { // recorrer la cadena desde el final
-    simbolosSufijos.addSimbolo(cadena_[i]); // añadir simbolo a cadena de sufijo
-    sufijos.insert(simbolosSufijos);  // añadir cadena prefijos al conjunto sufijos
-  }
-  return sufijos;
+    // Crear sufijos comenzando desde cada posición
+    for (size_t i = 0; i < cadena_.size(); i++) {
+        Cadena sufijo;  // sufijo temporal
+        // Agregar los símbolos desde la posición actual hasta el final
+        for (size_t j = i; j < cadena_.size(); j++) {
+            sufijo.addSimbolo(cadena_[j]); // añadir símbolo al sufijo
+        }
+        sufijos.insert(sufijo); // añadir sufijo al conjunto
+    }
+
+    return sufijos;
 }
+
 
 // método que devuelve la cadena inversa 
 Cadena Cadena::getInversa() const {
@@ -87,7 +94,19 @@ size_t Cadena::getLongitud() const {
 
 // sobrecarga del operador< para el uso de cadenas ordenadas con set
 bool Cadena::operator<(const Cadena& otra) const {
-  return cadena_ < otra.cadena_;
+    size_t minSize = std::min(getLongitud(), otra.getLongitud());
+
+    // Comparar símbolo a símbolo hasta que se encuentren diferencias
+    for (size_t i = 0; i < minSize; ++i) {
+        if (cadena_[i] < otra.cadena_[i]) {
+            return true;
+        } else if (otra.cadena_[i] < cadena_[i]) {
+            return false;
+        }
+    }
+
+    // Si las cadenas son iguales hasta la longitud de la más corta, la más corta es menor
+    return getLongitud() < otra.getLongitud();
 }
 
 // Sobrecarga del operador<< para mostrar la cadena de forma abc...

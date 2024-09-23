@@ -23,7 +23,7 @@ bool Lenguaje::hasCadena(const Cadena& cadena) const {
 // sobrecarga el operador<< para mostrar lenguaje = {&, a, aa, aab}
 std::ostream& operator<<(std::ostream& os, const Lenguaje& lenguaje) {
   // imprimir llave inicial y cadena vacía
-  os << "{" << Cadena::CAD_VACIA;
+  os << "{" << Cadena::CAD_VACIA << ", ";
   bool inicio = true; // control de separadores
   for (const auto& cadena : lenguaje.cadenas_) {  // recorrer todas las cadenas del lenguaje
     if (!inicio) {

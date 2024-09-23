@@ -21,7 +21,6 @@ public:
 
   // método para comprobar si ya existe una cadena en el lenguaje
   bool hasCadena(const Cadena& cadena) const;
-
   // sobrecarga de operador<< para mostrar lenguaje = {epsilon, a, aa, aab}
   friend std::ostream& operator<<(std::ostream& os, const Lenguaje& lenguaje);
 };
