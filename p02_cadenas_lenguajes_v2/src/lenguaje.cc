@@ -1,26 +1,53 @@
 #include "lenguaje.h"
 
-// constructor de conjunto de cadenas
+/**
+ * @brief Constructor por defecto de la clase Lenguaje.
+ */
 Lenguaje::Lenguaje() {}
-Lenguaje::Lenguaje(const std::set<Cadena>& cadenas) :
-  cadenas_(cadenas) {}
 
-// getter para obtener el conjunto de cadenas de un lenguaje
+/**
+ * @brief Constructor de la clase Lenguaje a partir de un conjunto de cadenas.
+ * 
+ * @param cadenas Conjunto de cadenas que conforman el lenguaje.
+ */
+Lenguaje::Lenguaje(const std::set<Cadena>& cadenas) : cadenas_(cadenas) {}
+
+/**
+ * @brief Getter para obtener el conjunto de cadenas del lenguaje.
+ * 
+ * @return const std::set<Cadena>& Referencia constante al conjunto de cadenas.
+ */
 const std::set<Cadena>& Lenguaje::getCadenas() const {
   return cadenas_;
 }
 
-// método para añadir nueva cadena al lenguaje
+/**
+ * @brief Método para añadir una nueva cadena al lenguaje.
+ * 
+ * @param cadena La cadena a añadir al conjunto.
+ */
 void Lenguaje::addCadena(const Cadena& cadena) {
   cadenas_.insert(cadena);
 }
 
-// método para comprobar si una cadena ya está en el lenguaje
+/**
+ * @brief Método para comprobar si una cadena ya está en el lenguaje.
+ * 
+ * @param cadena La cadena a comprobar.
+ * @return true Si la cadena está en el lenguaje.
+ * @return false Si la cadena no está en el lenguaje.
+ */
 bool Lenguaje::hasCadena(const Cadena& cadena) const {
-  return cadenas_.count(cadena) > 0;  // > 0 es que existe en el conjunto
+  return cadenas_.count(cadena) > 0;  // > 0 indica que existe en el conjunto
 }
 
-// sobrecarga el operador<< para mostrar lenguaje = {&, a, aa, aab}
+/**
+ * @brief Sobrecarga del operador << para mostrar el lenguaje de forma legible.
+ * 
+ * @param os Flujo de salida.
+ * @param lenguaje Objeto Lenguaje a mostrar.
+ * @return std::ostream& Referencia al flujo de salida.
+ */
 std::ostream& operator<<(std::ostream& os, const Lenguaje& lenguaje) {
   // Comenzar la impresión del conjunto de cadenas con una llave abierta
   os << "{";

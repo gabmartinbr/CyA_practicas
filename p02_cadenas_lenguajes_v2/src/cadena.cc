@@ -7,10 +7,10 @@
 // Autor: Gabriel Martín Broock
 // Correo: alu0101539157@ull.edu.es
 // Fecha: 22/09/2024
-// Archivo cadena.cc: clase cadena.
-// Contiene la declaración de la clase cadena 
-// para poder usar objetos tipo cadena(vector de simbolos) y 
-// realizar operaciones a las mismas
+// Archivo cadena.cc: clase Cadena.
+// Contiene la implementación de la clase Cadena 
+// para poder usar objetos tipo cadena (vector de símbolos) y 
+// realizar operaciones sobre ellos.
 // Referencias:
 // Enlaces de interés /
 // Historial de revisiones:
@@ -21,28 +21,52 @@
 // definición de cadena vacía
 const Simbolo Cadena::CAD_VACIA = Simbolo('&');
 
-// constructor para formar cadena a partir de un vector de simbolos
+/**
+ * @brief Constructor por defecto de la clase Cadena.
+ */
 Cadena::Cadena() {}
 
+/**
+ * @brief Constructor de la clase Cadena a partir de un vector de símbolos y un alfabeto.
+ * 
+ * @param simbolos Vector de símbolos que forman la cadena.
+ * @param alfabeto Alfabeto al que pertenecen los símbolos.
+ */
 Cadena::Cadena(const std::vector<Simbolo>& simbolos, const Alfabeto& alfabeto)
-  : cadena_(simbolos), alfabeto_(alfabeto) {
+  : cadena_(simbolos), alfabeto_(alfabeto) {}
 
-  }
-// getter para obtener la cadena
+/**
+ * @brief Getter para obtener la cadena.
+ * 
+ * @return const std::vector<Simbolo>& Referencia constante al vector de símbolos de la cadena.
+ */
 const std::vector<Simbolo>& Cadena::getCadena() const {
   return cadena_;
 }
-// getter para obtener el alfabeto de dicha cadena
+
+/**
+ * @brief Getter para obtener el alfabeto de la cadena.
+ * 
+ * @return const Alfabeto& Referencia constante al alfabeto de la cadena.
+ */
 const Alfabeto& Cadena::getAlfabeto() const {
   return alfabeto_;
 }
 
-// método para añadir simbolos a una cadena
+/**
+ * @brief Método para añadir símbolos a la cadena.
+ * 
+ * @param simbolo El símbolo a añadir a la cadena.
+ */
 void Cadena::addSimbolo(const Simbolo& simbolo) {
   cadena_.push_back(simbolo);
 }
 
-// método para obtener sufijos de la forma abc -> {&,a,ab,abc} con la sobrecarga << de lenguaje
+/**
+ * @brief Método para obtener los prefijos de la cadena.
+ * 
+ * @return std::set<Cadena> Conjunto de prefijos de la cadena.
+ */
 std::set<Cadena> Cadena::getPrefijos() const {
   std::set<Cadena> prefijos;  // conjunto de prefijos
   Cadena simbolosPrefijo; // almacenar cada símbolo de cada prefijo
@@ -57,7 +81,12 @@ std::set<Cadena> Cadena::getPrefijos() const {
 
   return prefijos;
 }
-// método para obtener prefijos de la forma abc -> {&,a,ab,abc} con la sobrecarga << de lenguaje
+
+/**
+ * @brief Método para obtener los sufijos de la cadena.
+ * 
+ * @return std::set<Cadena> Conjunto de sufijos de la cadena.
+ */
 std::set<Cadena> Cadena::getSufijos() const {
     std::set<Cadena> sufijos; // conjunto de sufijos
     sufijos.insert(Cadena()); // añadir el sufijo vacío (&)
@@ -75,24 +104,36 @@ std::set<Cadena> Cadena::getSufijos() const {
     return sufijos;
 }
 
-
-// método que devuelve la cadena inversa 
+/**
+ * @brief Método que devuelve la cadena inversa.
+ * 
+ * @return Cadena Cadena invertida.
+ */
 Cadena Cadena::getInversa() const {
-  std::vector<Simbolo> simbolosInversa; // vector de simbolos para construir cadena inversa
+  std::vector<Simbolo> simbolosInversa; // vector de símbolos para construir cadena inversa
   for (int i = cadena_.size() - 1; i >= 0; i--) { // recorrer cadena desde el final
-    simbolosInversa.push_back(cadena_[i]);  // agregar símbolo en orden inverso al vector de simbolos
+    simbolosInversa.push_back(cadena_[i]);  // agregar símbolo en orden inverso al vector de símbolos
   }
-  Cadena inversa(simbolosInversa, getAlfabeto());  // crear cadena inversa y consecuentemente su alfabeto
+  Cadena inversa(simbolosInversa, getAlfabeto());  // crear cadena inversa y su alfabeto
   return inversa;
 }
 
-
-// método que devuelve la longitud, numero de simbolos, de una cadena
+/**
+ * @brief Método que devuelve la longitud de la cadena.
+ * 
+ * @return size_t Número de símbolos en la cadena.
+ */
 size_t Cadena::getLongitud() const {
   return cadena_.size();
 }
 
-// sobrecarga del operador< para el uso de cadenas ordenadas con set
+/**
+ * @brief Sobrecarga del operador < para el uso de cadenas ordenadas en un conjunto.
+ * 
+ * @param otra Otra cadena con la que se compara.
+ * @return true Si esta cadena es menor que la otra.
+ * @return false Si esta cadena no es menor que la otra.
+ */
 bool Cadena::operator<(const Cadena& otra) const {
     if (cadena_.size() < otra.cadena_.size()) {
       return true;
@@ -109,7 +150,13 @@ bool Cadena::operator<(const Cadena& otra) const {
     return false;
 }
 
-// Sobrecarga del operador<< para mostrar la cadena de forma abc...
+/**
+ * @brief Sobrecarga del operador << para mostrar la cadena de forma legible.
+ * 
+ * @param os Flujo de salida.
+ * @param cadena Objeto Cadena a mostrar.
+ * @return std::ostream& Referencia al flujo de salida.
+ */
 std::ostream& operator<<(std::ostream& os, const Cadena& cadena) {
   for (const auto& simbolo : cadena.cadena_) {  // recorrer cada símbolo de la cadena
     os << simbolo.getSimbolo();

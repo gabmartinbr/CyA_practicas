@@ -1,16 +1,31 @@
 # Variables
 CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++20
-SRC = main.cc cadena.cc simbolo.cc alfabeto.cc lenguaje.cc
-TARGET = p2_cadenas_lenguajes
+CXXFLAGS = -std=c++11 -Wall -Wextra
+SRC_DIR = src
+INC_DIR = include
+DOCS_DIR = docs
+BUILD_DIR = build
+EXECUTABLE = p02_cadenas_lenguajes
+
+# Archivos fuente
+SRCS = $(wildcard $(SRC_DIR)/*.cc)
+# Archivos objeto
+OBJS = $(SRCS:$(SRC_DIR)/%.cc=$(BUILD_DIR)/%.o)
 
 # Reglas
-all: $(TARGET)
+all: $(EXECUTABLE) docs
 
-$(TARGET): $(SRC)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+$(EXECUTABLE): $(OBJS)
+	$(CXX) $(OBJS) -o $@
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -I$(INC_DIR) -c $< -o $@
+
+docs:
+	doxygen Doxyfile
 
 clean:
-	rm -f $(TARGET)
+	rm -rf $(BUILD_DIR)/*.o $(EXECUTABLE) $(DOCS_DIR)/*
 
-.PHONY: all clean
+.PHONY: all clean docs
