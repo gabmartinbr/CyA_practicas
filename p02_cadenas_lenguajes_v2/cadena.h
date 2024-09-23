@@ -35,7 +35,7 @@ public:
 
   // constructor para formar cadena a partir de un vector de simbolos
   Cadena();
-  Cadena(const std::vector<Simbolo>& simbolos);
+  Cadena(const std::vector<Simbolo>& simbolos, const Alfabeto& alfabeto);
   
   // getter para obtener la cadena 
   const std::vector<Simbolo>& getCadena() const;

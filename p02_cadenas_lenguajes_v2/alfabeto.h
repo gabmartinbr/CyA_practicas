@@ -32,6 +32,7 @@ public:
   // constructor de alfabeto a partir de los simbolos
   Alfabeto();
   Alfabeto(const std::set<Simbolo>& simbolos);
+  Alfabeto(const std::string& cadenaAlfabeto);
 
   // getter de conjunto de símbolos
   const std::set<Simbolo>& getSimbolos() const;

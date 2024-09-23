@@ -22,16 +22,32 @@ bool Lenguaje::hasCadena(const Cadena& cadena) const {
 
 // sobrecarga el operador<< para mostrar lenguaje = {&, a, aa, aab}
 std::ostream& operator<<(std::ostream& os, const Lenguaje& lenguaje) {
-  // imprimir llave inicial y cadena vacía
-  os << "{" << Cadena::CAD_VACIA << ", ";
-  bool inicio = true; // control de separadores
-  for (const auto& cadena : lenguaje.cadenas_) {  // recorrer todas las cadenas del lenguaje
-    if (!inicio) {
+  // Comenzar la impresión del conjunto de cadenas con una llave abierta
+  os << "{";
+
+  bool primera = true; // Flag para controlar la colocación de las comas
+
+  // Imprimir la cadena vacía si está presente en el conjunto de cadenas
+  if (lenguaje.cadenas_.find(Cadena()) != lenguaje.cadenas_.end()) {
+    os << Cadena::CAD_VACIA;
+    primera = false; // No poner coma después de la primera cadena
+  }
+
+  // Recorrer el conjunto de cadenas
+  for (const auto& cadena : lenguaje.cadenas_) {
+    // Omitir la cadena vacía, ya la hemos impreso
+    if (cadena.getCadena().empty()) {
+      continue;
+    }
+
+    // Si no es la primera vez, añadir una coma antes de la siguiente cadena
+    if (!primera) {
       os << ", ";
     }
-    os << cadena;
-    inicio = false;
+    os << cadena;  // Imprimir la cadena
+    primera = false; // Asegurar que la próxima cadena reciba una coma antes
   }
-  os << "}";
+
+  os << "}";  // Cerrar el conjunto de cadenas
   return os;
 }

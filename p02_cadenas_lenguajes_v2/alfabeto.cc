@@ -26,6 +26,14 @@ Alfabeto::Alfabeto(const std::set<Simbolo>& simbolos) {
   }
 }
 
+Alfabeto::Alfabeto(const std::string& alfabetoStr) {
+  // Recorrer cada carácter del string y convertirlo en un objeto Simbolo
+  for (char c : alfabetoStr) {
+    Simbolo simbolo(c);  // Crear un objeto Simbolo desde el carácter
+    addSimbolo(simbolo);  // Añadir el símbolo al set de símbolos
+  }
+}
+
 // getter de conjunto de símbolos
 const std::set<Simbolo>& Alfabeto::getSimbolos() const {
   return simbolos_;

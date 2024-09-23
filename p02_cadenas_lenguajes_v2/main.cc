@@ -52,13 +52,14 @@ void leerFicheroEntrada(const std::string& inputFile, const std::string& outputF
     std::string stringCadena, stringAlfabeto;
 
     iss >> stringCadena >> stringAlfabeto;  // leer de dos en dos la línea y guardando la cadena y el alfabeto
-    std::vector<Simbolo> simbolosCadena, simbolosAlfabeto;
+    std::vector<Simbolo> simbolosCadena;
+    Alfabeto simbolosAlfabeto(stringAlfabeto);
 
     for (char c : stringCadena) {  // convertir la cadena a vector de simbolos para usar en el constructor de cadena mas adelante
       simbolosCadena.push_back(Simbolo(c));
     }
 
-    Cadena cadena(simbolosCadena);  // crear cadena desde lo leido en archivo y se genera su alfabeto correspondiente(constructor de cadena)
+    Cadena cadena(simbolosCadena, simbolosAlfabeto);  // crear cadena desde lo leido en archivo y se genera su alfabeto correspondiente(constructor de cadena)
     
     switch (opcode) {
       case 1: // Alfabeto

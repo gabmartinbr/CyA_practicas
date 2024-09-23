@@ -24,14 +24,10 @@ const Simbolo Cadena::CAD_VACIA = Simbolo('&');
 // constructor para formar cadena a partir de un vector de simbolos
 Cadena::Cadena() {}
 
-Cadena::Cadena(const std::vector<Simbolo>& simbolos)
-  : cadena_(simbolos), alfabeto_() {
-    // Construir el alfabeto a partir de los símbolos de la cadena
-    for (const auto& simbolo : simbolos) {
-        alfabeto_.addSimbolo(simbolo);
-    }
-}
+Cadena::Cadena(const std::vector<Simbolo>& simbolos, const Alfabeto& alfabeto)
+  : cadena_(simbolos), alfabeto_(alfabeto) {
 
+  }
 // getter para obtener la cadena
 const std::vector<Simbolo>& Cadena::getCadena() const {
   return cadena_;
@@ -49,12 +45,16 @@ void Cadena::addSimbolo(const Simbolo& simbolo) {
 // método para obtener sufijos de la forma abc -> {&,a,ab,abc} con la sobrecarga << de lenguaje
 std::set<Cadena> Cadena::getPrefijos() const {
   std::set<Cadena> prefijos;  // conjunto de prefijos
-  Cadena simbolosPrefijo; // almacenar cada simbolo de cada prefijo
+  Cadena simbolosPrefijo; // almacenar cada símbolo de cada prefijo
+  
+  // Añadir la cadena vacía como primer prefijo
+  prefijos.insert(Cadena());  // insertar la cadena vacía (&)
 
   for (size_t i = 0; i < cadena_.size(); i++) { // recorrer cadena desde el principio
-    simbolosPrefijo.addSimbolo(cadena_[i]); // añadir simbolo a cadena de prefijo
+    simbolosPrefijo.addSimbolo(cadena_[i]); // añadir símbolo a la cadena de prefijo
     prefijos.insert(simbolosPrefijo); // añadir cadena prefijos al conjunto prefijos
   }
+
   return prefijos;
 }
 // método para obtener prefijos de la forma abc -> {&,a,ab,abc} con la sobrecarga << de lenguaje
@@ -82,7 +82,7 @@ Cadena Cadena::getInversa() const {
   for (int i = cadena_.size() - 1; i >= 0; i--) { // recorrer cadena desde el final
     simbolosInversa.push_back(cadena_[i]);  // agregar símbolo en orden inverso al vector de simbolos
   }
-  Cadena inversa(simbolosInversa);  // crear cadena inversa y consecuentemente su alfabeto
+  Cadena inversa(simbolosInversa, getAlfabeto());  // crear cadena inversa y consecuentemente su alfabeto
   return inversa;
 }
 
@@ -94,19 +94,19 @@ size_t Cadena::getLongitud() const {
 
 // sobrecarga del operador< para el uso de cadenas ordenadas con set
 bool Cadena::operator<(const Cadena& otra) const {
-    size_t minSize = std::min(getLongitud(), otra.getLongitud());
-
-    // Comparar símbolo a símbolo hasta que se encuentren diferencias
-    for (size_t i = 0; i < minSize; ++i) {
-        if (cadena_[i] < otra.cadena_[i]) {
-            return true;
-        } else if (otra.cadena_[i] < cadena_[i]) {
-            return false;
-        }
+    if (cadena_.size() < otra.cadena_.size()) {
+      return true;
+    } else if (cadena_.size() > otra.cadena_.size()) {
+      return false;
     }
-
-    // Si las cadenas son iguales hasta la longitud de la más corta, la más corta es menor
-    return getLongitud() < otra.getLongitud();
+    for (size_t i = 0; i < cadena_.size(); i++) {
+      if (cadena_[i].getSimbolo() < otra.cadena_[i].getSimbolo()) {
+        return true;
+      } else if (cadena_[i].getSimbolo() > otra.cadena_[i].getSimbolo()) {
+        return false;
+      }
+    }
+    return false;
 }
 
 // Sobrecarga del operador<< para mostrar la cadena de forma abc...
