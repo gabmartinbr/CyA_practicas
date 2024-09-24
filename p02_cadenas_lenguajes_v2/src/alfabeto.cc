@@ -37,11 +37,11 @@ Alfabeto::Alfabeto(const std::set<Simbolo>& simbolos) {
 /**
  * @brief Constructor de la clase Alfabeto a partir de una cadena de caracteres.
  * 
- * @param alfabetoStr Cadena que contiene los caracteres que se convertirán en símbolos.
+ * @param stringAlfabeto Cadena que contiene los caracteres que se convertirán en símbolos.
  */
-Alfabeto::Alfabeto(const std::string& alfabetoStr) {
+Alfabeto::Alfabeto(const std::string& stringAlfabeto) {
   // Recorrer cada carácter del string y convertirlo en un objeto Simbolo
-  for (char c : alfabetoStr) {
+  for (char c : stringAlfabeto) {
     Simbolo simbolo(c);  // Crear un objeto Simbolo desde el carácter
     addSimbolo(simbolo);  // Añadir el símbolo al set de símbolos
   }

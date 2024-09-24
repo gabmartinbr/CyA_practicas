@@ -52,7 +52,7 @@ std::ostream& operator<<(std::ostream& os, const Lenguaje& lenguaje) {
   // Comenzar la impresión del conjunto de cadenas con una llave abierta
   os << "{";
 
-  bool primera = true; // Flag para controlar la colocación de las comas
+  bool primera = true; // control de separadores
 
   // Imprimir la cadena vacía si está presente en el conjunto de cadenas
   if (lenguaje.cadenas_.find(Cadena()) != lenguaje.cadenas_.end()) {
