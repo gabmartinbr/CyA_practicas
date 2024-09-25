@@ -123,6 +123,15 @@ public:
   bool operator==(const Cadena& otra) const;
 
   /**
+   * @brief Sobrecarga del operador · para concatenar cadenas
+   * 
+   * @param os Flujo de salida.
+   * @param otra cadena a concatenar
+   * @return std::ostream& Referencia al flujo de salida.
+   */
+  Cadena operator+(const Cadena& otra) const;
+
+  /**
    * @brief Sobrecarga del operador << para mostrar la cadena de forma legible.
    * 
    * @param os Flujo de salida.
@@ -131,11 +140,13 @@ public:
    */
   friend std::ostream& operator<<(std::ostream& os, const Cadena& cadena);
 
+
+
   // metodo de si una cadena es palindroma y poner true o false en archivo
   bool isPalindroma();
   // metodo de potencia de una cadena
-  Cadena getPotencia(int& indice);
-  // metodo de eliminar
+  Cadena getPotencia(int indice);
+  // metodo de suprimir las cadenas de long i de sufijos y prefijos y mostrarlos todos juntos
 };
 
 #endif  // CADENA_H

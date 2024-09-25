@@ -90,6 +90,12 @@ void leerFicheroEntrada(const std::string& inputFile, const std::string& outputF
       case 6: // palindroma
         outFile << cadena.isPalindroma() << std::endl;
         break;
+      case 7: // potencia
+        outFile << cadena.getPotencia(2) << std::endl;
+        break;
+      case 8: // concatenacion
+        outFile << cadena + cadena.getInversa() << std::endl;
+        break;
       default:
         std::cerr << "Código de operación no válido." << std::endl;
         break;

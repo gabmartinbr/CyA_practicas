@@ -13,7 +13,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.cc)
 OBJS = $(SRCS:$(SRC_DIR)/%.cc=$(BUILD_DIR)/%.o)
 
 # Reglas
-all: $(EXECUTABLE) docs
+all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJS)
 	$(CXX) $(OBJS) -o $@

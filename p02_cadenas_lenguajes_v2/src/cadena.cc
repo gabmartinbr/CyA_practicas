@@ -166,6 +166,30 @@ bool Cadena::operator==(const Cadena& otra) const {
     // Comparar los símbolos de ambas cadenas
     return this->getCadena() == otra.getCadena(); // Comparar los vectores de símbolos
 }
+
+/**
+ * @brief Sobrecarga del operador + para concatenar cadenas
+ * 
+ * @param os Flujo de salida.
+ * @param otra cadena a concatenar
+ * @return std::ostream& Referencia al flujo de salida.
+ */
+Cadena Cadena::operator+(const Cadena& otra) const {
+    Cadena resultado;
+
+    // Agregar los símbolos de la cadena actual
+    for (const auto& simbolo : this->getCadena()) {
+        resultado.addSimbolo(simbolo);
+    }
+
+    // Agregar los símbolos de la otra cadena
+    for (const auto& simbolo : otra.getCadena()) {
+        resultado.addSimbolo(simbolo);
+    }
+
+    return resultado; // Retornar la nueva cadena resultante
+}
+
 /**
  * @brief Sobrecarga del operador << para mostrar la cadena de forma legible.
  * 
@@ -184,7 +208,18 @@ std::ostream& operator<<(std::ostream& os, const Cadena& cadena) {
 bool Cadena::isPalindroma(){
   return this->getCadena() == this->getInversa().getCadena();
 }
-// metodo de potencia de una cadena
-Cadena Cadena::getPotencia(int& indice) {
 
+// metodo de potencia de una cadena
+Cadena Cadena::getPotencia(int indice) {
+  Cadena potencia;
+  if (indice <= 0) {
+    return potencia;
+  }
+  for (int i = 0; i < indice; i++) {
+    for (size_t j = 0; j < this->getLongitud(); j++) {
+      potencia.addSimbolo(this->getCadena()[j]);
+    }
+  }
+
+  return potencia;
 }
