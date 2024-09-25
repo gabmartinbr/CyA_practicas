@@ -114,6 +114,15 @@ public:
   bool operator<(const Cadena& otra) const;
 
   /**
+   * @brief Sobrecarga del operador == para comparar cadenas
+   * 
+   * @param otra Otra cadena con la que se compara.
+   * @return true Si esta cadena es igual que la otra.
+   * @return false Si esta cadena no es igual que la otra.
+   */
+  bool operator==(const Cadena& otra) const;
+
+  /**
    * @brief Sobrecarga del operador << para mostrar la cadena de forma legible.
    * 
    * @param os Flujo de salida.
@@ -121,6 +130,12 @@ public:
    * @return std::ostream& Referencia al flujo de salida.
    */
   friend std::ostream& operator<<(std::ostream& os, const Cadena& cadena);
+
+  // metodo de si una cadena es palindroma y poner true o false en archivo
+  bool isPalindroma();
+  // metodo de potencia de una cadena
+  Cadena getPotencia(int& indice);
+  // metodo de eliminar
 };
 
 #endif  // CADENA_H

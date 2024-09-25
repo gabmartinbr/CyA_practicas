@@ -53,6 +53,14 @@ public:
   bool operator<(const Simbolo& otro) const;
 
   /**
+   * @brief Sobrecarga del operador == para comparar símbolos.
+   * 
+   * @param otro Otro objeto Simbolo a comparar.
+   * @return true Si el símbolo actual es igual que el otro.
+   * @return false En caso contrario.
+   */
+  bool operator==(const Simbolo& otro) const;
+  /**
    * @brief Sobrecarga del operador << para imprimir símbolos.
    * 
    * @param os Flujo de salida.

@@ -7,7 +7,9 @@
 #include <vector>
 #include <sstream>
 
-// Declaraciones de las funciones
+/**
+ * @brief Muestra la ayuda para ejecutar el programa correctamente
+ */
 void usageHelp();
 
 /**
@@ -84,6 +86,9 @@ void leerFicheroEntrada(const std::string& inputFile, const std::string& outputF
         break;
       case 5: // Sufijos
         outFile << Lenguaje(cadena.getSufijos()) << std::endl;
+        break;
+      case 6: // palindroma
+        outFile << cadena.isPalindroma() << std::endl;
         break;
       default:
         std::cerr << "Código de operación no válido." << std::endl;

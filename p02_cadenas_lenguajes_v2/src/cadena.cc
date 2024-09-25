@@ -151,6 +151,22 @@ bool Cadena::operator<(const Cadena& otra) const {
 }
 
 /**
+ * @brief Sobrecarga del operador == para comparar cadenas
+ * 
+ * @param otra Otra cadena con la que se compara.
+ * @return true Si esta cadena es igual que la otra.
+ * @return false Si esta cadena no es igual que la otra.
+ */
+bool Cadena::operator==(const Cadena& otra) const {
+    // Comparar el tamaño de ambas cadenas
+    if (this->getLongitud() != otra.getLongitud()) {
+        return false; // Si no son del mismo tamaño, no son iguales
+    }
+    
+    // Comparar los símbolos de ambas cadenas
+    return this->getCadena() == otra.getCadena(); // Comparar los vectores de símbolos
+}
+/**
  * @brief Sobrecarga del operador << para mostrar la cadena de forma legible.
  * 
  * @param os Flujo de salida.
@@ -162,4 +178,13 @@ std::ostream& operator<<(std::ostream& os, const Cadena& cadena) {
     os << simbolo.getSimbolo();
   }
   return os;
+}
+
+// metodo de si una cadena es palindroma y poner true o false en archivo
+bool Cadena::isPalindroma(){
+  return this->getCadena() == this->getInversa().getCadena();
+}
+// metodo de potencia de una cadena
+Cadena Cadena::getPotencia(int& indice) {
+
 }
