@@ -28,8 +28,8 @@ void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
   std::smatch matches;
 
   // regex a analizar
-  std::regex inline_comments_regex();
-  std::regex multiline_comments_regex();
+  std::regex inline_comments_regex("\/\/(.*)");
+  std::regex multiline_comments_regex("((\/\*\*)(((\n\s\*).*)+))(\n\s\*\/)");
   std::regex variables_regex();
   std::regex loops_regex();
 
