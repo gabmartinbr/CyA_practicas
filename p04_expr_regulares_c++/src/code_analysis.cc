@@ -21,7 +21,7 @@ void CodeAnalysis::AnalizeFile(const std::string& input_file) {
 
   // cerrar archivo de entrada y generar reporte del analisis
   file.close();
-  ExportReport();
+  ExportReport(input_file, output_file_);
 }
 
 void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
@@ -139,7 +139,7 @@ void CodeAnalysis::ExportReport(const std::string& input_file,const std::string&
   // imprimir descripcion
   bool has_description = false;
   for (const auto& comment : code_block_.GetComments()) {
-    if (comment.GetType() == "multi-line" && comment.GetStartLine() == 1) {
+    if (comment.GetType() == "multi-line" && comment.GetIniLine() == 1) {
       report_file << "DESCRIPTION \n";
       report_file << comment.GetContent() << "\n";
       has_description = true;
@@ -155,13 +155,13 @@ void CodeAnalysis::ExportReport(const std::string& input_file,const std::string&
   // imprimir variables
   report_file << "\nVARIABLES:\n";
   for (const auto& var : code_block_.GetVariables()) {
-    report_file << var.ToString() << "\n";
+    report_file << var << "\n";
   }
 
   // imprimir bucles
   report_file << "\nLOOPS:\n";
   for (const auto& loop : code_block_.GetLoops()) {
-    report_file << loop.ToString() << "\n";
+    report_file << loop << "\n";
   }
 
   // imprimir si tiene main
@@ -173,17 +173,17 @@ void CodeAnalysis::ExportReport(const std::string& input_file,const std::string&
   report_file << "\nCOMMENTS :\n";
     for (const auto& comment : code_block_.GetComments()) {
       // Saltar el comentario que ya hemos usado como descripción
-      if (comment.GetType() == "multi-line" && comment.GetStartLine() <= 2) {
+      if (comment.GetType() == "multi-line" && comment.GetIniLine() <= 2) {
         continue;
       }
       
       // Verificar si es un comentario inline o multi-line
       if (comment.GetType() == "single-line") {
         // Imprimir comentarios de una sola línea
-        report_file << "[ Line " << comment.GetStartLine() << "] " << "// " << comment.GetContent() << "\n";
+        report_file << "[ Line " << comment.GetIniLine() << "] " << "// " << comment.GetContent() << "\n";
       } else if (comment.GetType() == "multi-line") {
         // Imprimir comentarios multilinea
-        report_file << "[ Line " << comment.GetStartLine() << " - " << comment.GetEndLine() << "] " << "/* " << comment.GetContent() << " */" << "\n";
+        report_file << "[ Line " << comment.GetIniLine() << " - " << comment.GetEndLine() << "] " << "/* " << comment.GetContent() << " */" << "\n";
       }
     }  
   report_file.close();

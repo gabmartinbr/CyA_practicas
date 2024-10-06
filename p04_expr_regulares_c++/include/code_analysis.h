@@ -37,4 +37,4 @@ public:
 
 
 
-#endif // CODE_ANALYSIS
+#endif // CODE_ANALYSIS_H
