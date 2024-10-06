@@ -27,6 +27,6 @@ int Variable::GetLineNumber() const {
 
 // sobrecarga del operador << 
 std::ostream& operator<<(std::ostream& os, const Variable& var) {
-  os << "[ Line " << var.GetLineNumber() << "] " << var.GetType() << " : " << var.GetName();
+  os << "[Line " << var.GetLineNumber() << "] " << var.GetType() << ": " << var.GetName();
   return os;
 }

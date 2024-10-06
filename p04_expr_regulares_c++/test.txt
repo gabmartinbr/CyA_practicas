@@ -4,8 +4,14 @@ DESCRIPTION:
 No description found in file
 
 VARIABLES:
+[Line 22]       int: factorial
+prueba
+[Line 32]   int: limit
+prueba
 
 STATEMENTS:
+[ Line 23] LOOP :       for (int i = 1; i <= number ; ++ i ) {
+[ Line 34] LOOP :   for (int i = 1; i <= limit ; ++ i ) {
 
 MAIN:
 True

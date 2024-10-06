@@ -87,8 +87,8 @@ void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
         }
 
         // regex bucles
-        std::regex for_loops_regex(R"(^\bfor\s\(.*\)\s\{$)"); // Bucles for
-        std::regex while_loops_regex(R"(^\bwhile\s\(.*\)\s\{$)"); // Bucles while
+        std::regex for_loops_regex(R"((^\s*for)\s*\(.*\)\s*\{)"); // Bucles for
+        std::regex while_loops_regex(R"(^\s*while\s*\(.*\)\s*\{)"); // Bucles while
 
         // detectar for loops
         if (std::regex_search(line, matches, for_loops_regex)) {
@@ -109,13 +109,14 @@ void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
         }
 
         // regex variables
-        std::regex int_variables_regex(R"(^\s*int\s\w+(;|\{\d+\};|\s*=\s*\d+;|\{\};))"); // Variables enteras
-        std::regex double_variables_regex(R"(^\s*double\s\w+(;|\{\d+\.\d+\};|\{\d+\};|\s*=\s*\d+;|\s*=\s*\d+\.\d+;|\s*=\s*\d+\s*;\s*))"); // Variables dobles
+        std::regex int_variables_regex(R"((^\s*int)\s+(\w+)(\s*=\s*\d+)?\s*;|\s*\{(\d+)\}\s*;)");
+        std::regex double_variables_regex(R"(^\s*double\s+(\w+)(\s*=\s*\d+\.\d+)?\s*;|\s*\{(\d+)\}\s*;)");
 
         // detectar enteros
         if (std::regex_search(line, matches, int_variables_regex)) {
             // crear objeto variable
             Variable var(line_counter, matches);
+            code_block_.AddVariable(var);
             return;
         }
 
@@ -123,6 +124,7 @@ void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
         if (std::regex_search(line, matches, double_variables_regex)) {
             // crear objeto variable
             Variable var(line_counter, matches);
+            code_block_.AddVariable(var);
             return;
         }
 
