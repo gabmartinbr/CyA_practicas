@@ -1,5 +1,5 @@
 #include<iostream>
-
+#include "code_analysis.h"
 
 /**
  * @brief funcion principal del programa analiazdor de código
@@ -23,8 +23,8 @@ int main(int argc, char* argv[]) {
   // crear objeto tipo CodeAnalysis
   CodeAnalysis analysis(input_file, output_file);
   // analizar archivo y crear reporte
-  analysis.AnalizeFile();
-  analysis.ExportReport();
+  analysis.AnalizeFile(input_file);
+  analysis.ExportReport(output_file);
 
   std::cout << "Analisis terminado, compruebe el fichero " << output_file << " para ver resultados" << std::endl;
   
