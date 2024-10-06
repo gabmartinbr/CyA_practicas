@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <regex>
 
 class Variable{
 private:
@@ -11,7 +12,7 @@ private:
   int line_number_;
 
 public:
-  Variable(const std::string& name, const std::string& type, int line_number);
+  Variable(int line_counter, std::smatch& match);
 
   // getters
   std::string GetName() const;

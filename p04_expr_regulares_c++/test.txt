@@ -1,0 +1,15 @@
+PROGRAM: ./data/code.cc
+
+DESCRIPTION:
+No description found in file
+
+VARIABLES:
+
+STATEMENTS:
+
+MAIN:
+True
+
+COMMENTS:
+[ Line 9] //  github .com/IB -2023 -2024/ IB -class -code - examples /
+[ Line 15] //  Returns the factorial of the argument

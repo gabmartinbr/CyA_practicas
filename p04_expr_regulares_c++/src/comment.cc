@@ -1,7 +1,12 @@
 #include "comment.h"
 
-Comment::Comment(int ini_line, int end_line, const std::string& content, std::string& type)
+Comment::Comment() : ini_line_(0), end_line_(0), content_(""), type_("") {}
+
+Comment::Comment(int ini_line, int end_line, const std::string& content, const std::string& type)
   : ini_line_(ini_line), end_line_(end_line), content_(content), type_(type) {}
+
+Comment::Comment(int ini_line, const std::string& content, const std::string& type)
+  : ini_line_(ini_line), content_(content), type_(type) {}
 
 // getters
 int Comment::GetIniLine() const{

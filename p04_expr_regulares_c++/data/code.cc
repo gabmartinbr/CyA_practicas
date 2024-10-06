@@ -13,7 +13,7 @@
 # include <cassert>
 
 // Returns the factorial of the argument
-int Factorial (int number ) {
+int Factorial (int number) {
   switch ( number ) {
     case 0:
     case 1:

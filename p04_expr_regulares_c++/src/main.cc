@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
   CodeAnalysis analysis(input_file, output_file);
   // analizar archivo y crear reporte
   analysis.AnalizeFile(input_file);
-  analysis.ExportReport(output_file);
+  analysis.ExportReport(input_file, output_file);
 
   std::cout << "Analisis terminado, compruebe el fichero " << output_file << " para ver resultados" << std::endl;
   

@@ -12,7 +12,9 @@ private:
   std::string type_;
 
 public:
-  Comment(int ini_line, int end_line, const std::string& content, std::string& type);
+  Comment();
+  Comment(int ini_line, int end_line, const std::string& content, const std::string& type);
+  Comment(int ini_line, const std::string& content, const std::string& type);
 
   // getters
   int GetIniLine() const;
