@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <regex>
 
 class Loop{
 private:
@@ -10,7 +11,7 @@ private:
   std::string type_;
 
 public:
-  Loop(int line_number, const std::string& type);
+  Loop(int line_counter, std::smatch& match);
 
   // Getters
   int GetLineNumber() const;
