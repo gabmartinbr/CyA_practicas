@@ -4,14 +4,12 @@ DESCRIPTION:
 No description found in file
 
 VARIABLES:
-[Line 22] int: factorial
-prueba
-[Line 32] int: limit
-prueba
+[Line 22] double: factorial = 1.0
+[Line 33] double: limit
 
 STATEMENTS:
-[ Line 23] LOOP : while
-[ Line 34] LOOP : for
+[ Line 23] LOOP : for
+[ Line 35] LOOP : for
 
 MAIN:
 True
@@ -19,3 +17,4 @@ True
 COMMENTS:
 [ Line 9] //  github .com/IB -2023 -2024/ IB -class -code - examples /
 [ Line 15] //  Returns the factorial of the argument
+[ Line 30] //  funcion main

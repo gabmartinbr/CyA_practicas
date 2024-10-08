@@ -9,6 +9,7 @@ class Variable{
 private:
   std::string name_;
   std::string type_;
+  std::string value_;
   int line_number_;
 
 public:
@@ -17,6 +18,8 @@ public:
   // getters
   std::string GetName() const;
   std::string GetType() const;
+  std::string GetValue() const;
+
   int GetLineNumber() const;
 
   // convertir a string

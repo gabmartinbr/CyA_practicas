@@ -172,7 +172,6 @@ void CodeAnalysis::ExportReport(const std::string& input_file, const std::string
   report_file << "\nVARIABLES:\n";
   for (const auto& var : code_block_.GetVariables()) {
     report_file << var << "\n";
-    report_file << "prueba\n";
   }
 
 

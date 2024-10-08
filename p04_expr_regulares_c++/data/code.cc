@@ -19,7 +19,7 @@ int Factorial (int number) {
     case 1:
       return 1;
     default :
-      int factorial = 1;
+      double factorial = 1.0;
       for (int i = 1; i <= number ; ++ i ) {
         factorial *= i ;
       }
@@ -27,9 +27,10 @@ int Factorial (int number) {
   }
 }
 
+// funcion main
 int main () {
   std :: cout << " Introduzca el numero de factoriales a calcular : ";
-  int limit ;
+  double limit;
   std :: cin >> limit ;
   for (int i = 1; i <= limit ; ++ i ) {
     std :: cout << i << "! = " << ( double ) Factorial ( i ) << std :: endl ;
