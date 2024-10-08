@@ -25,185 +25,170 @@ void CodeAnalysis::AnalizeFile(const std::string& input_file) {
 }
 
 void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
-    std::smatch matches;  // coincidencias con las regex 
+    std::smatch matches;  // coincidencias con las regex
 
     try {
-        // regex comentarios
-        std::regex inline_comments_regex(R"(//(.*))"); // Comentarios en línea
-        std::regex ini_multiline_comments_regex(R"(\/\*(.*))"); // Inicio de comentarios multilínea
-        std::regex end_multiline_comments_regex(R"(^\*\/$)"); // Fin de comentarios multilínea
+        // Expresiones regulares para comentarios
+        std::regex inline_comments_regex(R"(//(.*))");  // Comentarios en línea
+        std::regex ini_multiline_comments_regex(R"(\/\*)"); // Inicio de comentarios multilínea
+        std::regex end_multiline_comments_regex(R"(\*\/)"); // Fin de comentarios multilínea
 
-        int start_multiline_comment = 0;  // línea de inicio del comentario
-        std::string multiline_comment_content;  // almacenar contenido de comentario línea por línea
-        bool in_multiline_comment = false;  // flag para saber si es inline o no
+        // Variables para manejar comentarios multilínea
+        static int start_multiline_comment = 0;
+        static std::string multiline_comment_content;
+        static bool in_multiline_comment = false;
 
-        // Detectar si estamos en un comentario de múltiples líneas
+        // Si ya estamos dentro de un comentario multilínea
         if (in_multiline_comment) {
-            // Buscar el final del comentario multilínea
             if (std::regex_search(line, matches, end_multiline_comments_regex)) {
-                // Añadir última línea de multilínea al contenido del comentario
+                // Encontramos el fin del comentario multilínea
                 multiline_comment_content += line.substr(0, matches.position() + matches.length()) + "\n";
 
-                // Crear objeto comentario
-                Comment comment(start_multiline_comment, line_counter, multiline_comment_content, "multi-line");
-                // Añadir comentario a vector de comentarios 
-                code_block_.AddComment(comment);
+                // Crear comentario multilínea
+                if (start_multiline_comment == 1) {
+                    // Guardar como descripción si inicia en la línea 1
+                    Comment description_comment(1, line_counter, multiline_comment_content, "description");
+                    description_comment.SetIsDescription();
+                    code_block_.AddComment(description_comment);
+                } else {
+                    // Comentario multilínea normal
+                    Comment comment(start_multiline_comment, line_counter, multiline_comment_content, "multi-line");
+                    code_block_.AddComment(comment);
+                }
 
-                // Resetear variables
+                // Reiniciar el estado
                 in_multiline_comment = false;
                 multiline_comment_content.clear();
             } else {
-                // Si no se encuentra fin de comentario, se guarda la línea completa
+                // Seguimos acumulando el comentario
                 multiline_comment_content += line + "\n";
             }
+            return;  // No proceses más si estamos en un comentario multilínea
         }
-        // Detectar inicio de un comentario multilínea
-        else if (std::regex_search(line, matches, ini_multiline_comments_regex)) {
+
+        // Detectar el inicio de un comentario multilínea
+        if (std::regex_search(line, matches, ini_multiline_comments_regex)) {
             in_multiline_comment = true;
             start_multiline_comment = line_counter;
-
-            // Almacenar la primera línea de comentario
             multiline_comment_content = line + "\n";
             return;
         }
 
-        // Comprobar si hay un comentario multilínea al principio del archivo
-        if (line_counter == 1 && in_multiline_comment) {
-            // Añadir el comentario como descripción
+        // Comprobar si hay un comentario multilínea al principio del archivo (para la descripción)
+        if (line_counter == 1 && !multiline_comment_content.empty()) {
             Comment description_comment(1, line_counter, multiline_comment_content, "description");
+            description_comment.SetIsDescription();
             code_block_.AddComment(description_comment);
             multiline_comment_content.clear();  // Limpiar contenido de descripción
-            return;  // Salir de la función, ya que la descripción se maneja
+            return;
         }
 
-        // Detectar si hay un comentario en línea
+        // Comentarios en línea
         if (std::regex_search(line, matches, inline_comments_regex)) {
-            // Crear objeto comentario
             Comment comment(line_counter, matches[1].str(), "single-line");
-            
-            // Añadir el comentario al vector de comentarios
             code_block_.AddComment(comment);
             return;
         }
 
-        // regex bucles
+        // Expresiones regulares para bucles
         std::regex for_loops_regex(R"(^\s*(for)\s*\(.*\)\s*\{)"); // Bucles for
         std::regex while_loops_regex(R"(^\s*(while)\s*\(.*\)\s*\{)"); // Bucles while
 
-        // detectar for loops
+        // Detectar for loops
         if (std::regex_search(line, matches, for_loops_regex)) {
-            // crear objeto loop
-            Loop loop(line_counter, matches);
-            // añadir el for al vector de bucles
+            Loop loop(line_counter, matches); // Añadir solo "for"
             code_block_.AddLoop(loop);
             return;
         }
 
-        // detectar while loops
+        // Detectar while loops
         if (std::regex_search(line, matches, while_loops_regex)) {
-            // crear objeto loop
-            Loop loop(line_counter, matches);
-            // añadir el while al vector de bucles
+            Loop loop(line_counter, matches); // Añadir solo "while"
             code_block_.AddLoop(loop);
             return;
         }
 
-        // regex variables
+        // Expresiones regulares para variables
         std::regex int_variables_regex(R"(^\s*(int)\s+(\w+)(\s*=\s*\d+)?\s*;|\s*\{(\d+)\}\s*;)");
         std::regex double_variables_regex(R"(^\s*(double)\s+(\w+)(\s*=\s*\d+\.\d+)?\s*;|\s*\{(\d+)\}\s*;)");
 
-        // detectar enteros
+        // Detectar enteros
         if (std::regex_search(line, matches, int_variables_regex)) {
-            // crear objeto variable
             Variable var(line_counter, matches);
             code_block_.AddVariable(var);
             return;
         }
 
-        // detectar doubles
+        // Detectar doubles
         if (std::regex_search(line, matches, double_variables_regex)) {
-            // crear objeto variable
             Variable var(line_counter, matches);
             code_block_.AddVariable(var);
             return;
         }
 
-        // detectar si hay función main
+        // Detectar si hay función main
         std::regex has_main(R"(^\s*int\s+main\s*\(.*\)\s*\{)"); // Función main
-
         if (std::regex_search(line, matches, has_main)) {
             code_block_.SetHasMain(true);
             return;
         }
+
     } catch (const std::regex_error& e) {
         std::cerr << "Regex error in line " << line_counter << ": " << e.what() << std::endl;
-        // Aquí puedes manejar el error de acuerdo a tus necesidades (por ejemplo, omitir la línea o detener el análisis)
     }
 }
 
-
-
-
 void CodeAnalysis::ExportReport(const std::string& input_file, const std::string& output_file) {
-  std::ofstream report_file(output_file);
-  if (!report_file.is_open()) {
-    std::cerr << "Error al abrir o crear el archivo de salida " << output_file << std::endl;
-    return;
-  }
-
-  report_file << "PROGRAM: " << input_file << "\n\n";
-
-  // Imprimir descripción
-  bool has_description = false;
-  for (const auto& comment : code_block_.GetComments()) {
-    if (comment.GetType() == "multi-line" && comment.GetIniLine() == 1) {
-      report_file << "DESCRIPTION:\n";
-      report_file << comment.GetContent() << "\n";
-      has_description = true;
-      break;
-    }
-  }
-
-  if (!has_description) {
-    report_file << "DESCRIPTION:\n";
-    report_file << "No description found in file\n";
-  }
-
-  report_file << "\nVARIABLES:\n";
-  for (const auto& var : code_block_.GetVariables()) {
-    report_file << var << "\n";
-  }
-
-
-  report_file << "\nSTATEMENTS:\n";
-  for (const auto& loop : code_block_.GetLoops()) {
-    report_file << loop << "\n";
-  }
-
-  // Imprimir si tiene main
-  report_file << "\nMAIN:\n";
-  if (code_block_.HasMain()) {
-    report_file << "True\n";
-  } else {
-    report_file << "False\n"; // Si quieres indicar que no hay main
-  }
-
-  // Imprimir comentarios de ambos tipos
-  report_file << "\nCOMMENTS:\n";
-  for (const auto& comment : code_block_.GetComments()) {
-    // Saltar el comentario que ya hemos usado como descripción
-    if (comment.GetType() == "multi-line" && comment.GetIniLine() == 1) {
-      continue;
+    std::ofstream report_file(output_file);
+    if (!report_file.is_open()) {
+        std::cerr << "Error al abrir o crear el archivo de salida " << output_file << std::endl;
+        return;
     }
 
-    // Verificar si es un comentario inline o multi-line
-    if (comment.GetType() == "single-line") {
-      // Imprimir comentarios de una sola línea
-      report_file << "[ Line " << comment.GetIniLine() << "] " << "// " << comment.GetContent() << "\n";
-    } else if (comment.GetType() == "multi-line") {
-      // Imprimir comentarios multilínea
-      report_file << "[ Line " << comment.GetIniLine() << " - " << comment.GetEndLine() << "] " << "DESCRIPTION\n";
-    } 
-  }
-  report_file.close();
+    report_file << "PROGRAM: " << input_file << "\n\n";
+
+    // Imprimir descripción
+    bool has_description = false;
+    for (const auto& comment : code_block_.GetComments()) {
+        if (comment.GetType() == "description" && comment.GetIsDescription()) {
+            report_file << "DESCRIPTION:\n";
+            report_file << comment.GetContent();  // Mostrar el contenido de la descripción
+            has_description = true;
+            break;
+        }
+    }
+
+    if (!has_description) {
+        report_file << "DESCRIPTION:\n";
+        report_file << "No description found in file\n";
+    }
+
+    report_file << "\nVARIABLES:\n";
+    for (const auto& var : code_block_.GetVariables()) {
+        report_file << var << "\n";
+    }
+
+    report_file << "\nSTATEMENTS:\n";
+    for (const auto& loop : code_block_.GetLoops()) {
+        report_file << loop << "\n";
+    }
+
+    // Imprimir si tiene main
+    report_file << "\nMAIN:\n";
+    report_file << (code_block_.HasMain() ? "True\n" : "False\n");
+
+    // Imprimir comentarios de ambos tipos
+    report_file << "\nCOMMENTS:\n";
+    for (const auto& comment : code_block_.GetComments()) {
+        if (comment.GetType() == "description" && comment.GetIsDescription()) {
+            report_file << "[ Line " << comment.GetIniLine() << " - " << comment.GetEndLine() << "] DESCRIPTION\n";
+            continue;  // Evitar imprimir el contenido real de la descripción
+        }
+
+        if (comment.GetType() == "single-line") {
+            report_file << "[ Line " << comment.GetIniLine() << "] // " << comment.GetContent() << "\n";
+        } else if (comment.GetType() == "multi-line") {
+            report_file << "[ Line " << comment.GetIniLine() << " - " << comment.GetEndLine() << "] /* " << comment.GetContent() << " */\n";
+        }
+    }
 }

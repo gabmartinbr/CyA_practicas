@@ -10,6 +10,7 @@ private:
   int end_line_;
   std::string content_;
   std::string type_;
+  bool is_description_ = false;
 
 public:
   Comment();
@@ -21,6 +22,9 @@ public:
   int GetEndLine() const;
   std::string GetContent() const;
   std::string GetType() const;
+  bool GetIsDescription() const;
+
+  void SetIsDescription();
 };
 
 std::ostream& operator<<(std::ostream& os, const Comment& comm);

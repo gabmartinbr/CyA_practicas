@@ -1,7 +1,16 @@
 PROGRAM: ./data/code.cc
 
 DESCRIPTION:
-No description found in file
+/**
+2 * Universidad de La Laguna
+3 * Escuela Superior de Ingenieria y Tecnologia
+4 * Informatica Basica
+5 *
+6 * @brief Ejercicios de programacion
+7 * Version 1: Funcion factorial
+8 *
+9 * @see https :// github .com/IB -2023 -2024/ IB -class -code - examples /
+10 */
 
 VARIABLES:
 [Line 22] double: factorial = 1.0
@@ -15,6 +24,6 @@ MAIN:
 True
 
 COMMENTS:
-[ Line 9] //  github .com/IB -2023 -2024/ IB -class -code - examples /
+[ Line 1 - 10] DESCRIPTION
 [ Line 15] //  Returns the factorial of the argument
 [ Line 30] //  funcion main

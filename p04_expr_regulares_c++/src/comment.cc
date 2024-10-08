@@ -25,8 +25,21 @@ std::string Comment::GetType() const {
   return type_;
 }
 
+bool Comment::GetIsDescription() const {
+  return is_description_;
+}
+
+void Comment::SetIsDescription() {
+  is_description_ = true;
+}
+
 std::ostream& operator<<(std::ostream& os, const Comment& comm) {
-  os << "[ Line " << comm.GetIniLine() << " - " << comm.GetEndLine() << "] " 
-       << comm.GetType() << ": " << comm.GetContent();
-    return os;
+  if (comm.GetIsDescription() == false) { 
+    os << "[ Line " << comm.GetIniLine() << " - " << comm.GetEndLine() << "] " 
+        << comm.GetType() << ": " << comm.GetContent();
+  }
+  if (comm.GetIsDescription() == true) {
+    os << "[ Line " << comm.GetIniLine() << " - " << comm.GetEndLine() << "] DESCRIPTION";
+  }
+  return os;
 }
