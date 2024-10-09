@@ -145,7 +145,11 @@ void CodeAnalysis::ExportReport(const std::string& input_file, const std::string
         return;
     }
 
-    report_file << "PROGRAM: " << input_file << "\n\n";
+// Convertir la ruta del archivo de entrada a filesystem::path
+  std::filesystem::path file_path(input_file);
+  std::string file_name = file_path.filename().string();  // Extraer solo el nombre del archivo
+
+  report_file << "PROGRAM: " << file_name << "\n\n";
 
     // Imprimir descripción
     bool has_description = false;

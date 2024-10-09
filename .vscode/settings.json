@@ -51,7 +51,10 @@
         "sstream": "cpp",
         "bitset": "cpp",
         "ctime": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "codecvt": "cpp",
+        "ratio": "cpp",
+        "iomanip": "cpp"
     },
     "workbench.colorCustomizations": {
         "minimap.background": "#00000000",

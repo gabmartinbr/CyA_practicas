@@ -1,13 +1,13 @@
 /**
-2 * Universidad de La Laguna
-3 * Escuela Superior de Ingenieria y Tecnologia
-4 * Informatica Basica
-5 *
-6 * @brief Ejercicios de programacion
-7 * Version 1: Funcion factorial
-8 *
-9 * @see https :// github .com/IB -2023 -2024/ IB -class -code - examples /
-10 */
+* Universidad de La Laguna
+* Escuela Superior de Ingenieria y Tecnologia
+* Informatica Basica
+*
+* @brief Ejercicios de programacion
+* Version 1: Funcion factorial
+*
+* @see https :// github .com/IB -2023 -2024/ IB -class -code - examples /
+*/ 
 
 # include <iostream>
 # include <cassert>
