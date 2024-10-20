@@ -13,6 +13,15 @@ Variable::Variable(int line_counter, std::smatch& match) {
   }
 }
 
+
+void Variable::SetAsign() {
+  is_asign_ = true;
+}
+
+bool Variable::GetAsign() {
+  return is_asign_;
+}
+
 // getters
 std::string Variable::GetName() const {
   return name_;

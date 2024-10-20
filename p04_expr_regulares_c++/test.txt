@@ -13,8 +13,12 @@ DESCRIPTION:
 */
 
 VARIABLES:
-[Line 22] double: factorial = 1.0
+[Line 22] int: factorial = 1
 [Line 33] double: limit
+[Line 22] int: factorial = 1
+[Line 22] int: factorial = 1debug: ya fue declarada
+[Line 33] : 
+[Line 33] : debug: ya fue declarada
 
 STATEMENTS:
 [ Line 23] LOOP : for

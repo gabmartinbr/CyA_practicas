@@ -17,6 +17,7 @@ private:
   std::string type_;        ///< Tipo de la variable (e.g., int, double).
   std::string value_;       ///< Valor de la variable si está inicializada.
   int line_number_;         ///< Número de línea donde se declara la variable.
+  bool is_asign_;
 
 public:
   /**
@@ -27,6 +28,9 @@ public:
    */
   Variable(int line_counter, std::smatch& match);
 
+
+  bool GetAsign();
+  void SetAsign();
   // Getters
 
   /**

@@ -112,10 +112,19 @@ void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
         std::regex int_variables_regex(R"(^\s*(int)\s+(\w+)(\s*=\s*\d+)?\s*;|\s*\{(\d+)\}\s*;)");
         std::regex double_variables_regex(R"(^\s*(double)\s+(\w+)(\s*=\s*\d+\.\d+)?\s*;|\s*\{(\d+)\}\s*;)");
 
+        
         // Detectar enteros
         if (std::regex_search(line, matches, int_variables_regex)) {
             Variable var(line_counter, matches);
             code_block_.AddVariable(var);
+            std::string name(var.GetName());
+            std::regex assign(R"(^\s*(\+|\*)?=\s*\d*;)");
+            for (auto variable : code_block_.GetVariables()) {
+                if (std::regex_search(name,assign)) {
+                    variable.SetAsign();
+                    code_block_.AddVariable(variable);
+                }
+            }
             return;
         }
 
@@ -123,6 +132,14 @@ void CodeAnalysis::LineParser(const std::string& line, int line_counter) {
         if (std::regex_search(line, matches, double_variables_regex)) {
             Variable var(line_counter, matches);
             code_block_.AddVariable(var);
+            std::string name(var.GetName());
+            std::regex assign(R"(^\s*(\+|\*)?=\s*(\d*\.\d*;)|(\w*))");
+            for (auto variable : code_block_.GetVariables()) {
+                if (std::regex_search(name,assign)) {
+                    variable.SetAsign();
+                    code_block_.AddVariable(variable);
+                }
+            }
             return;
         }
 
@@ -168,8 +185,12 @@ void CodeAnalysis::ExportReport(const std::string& input_file, const std::string
     }
 
     report_file << "\nVARIABLES:\n";
-    for (const auto& var : code_block_.GetVariables()) {
+    for (auto var : code_block_.GetVariables()) {
         report_file << var << "\n";
+        if (var.GetAsign() == true) {
+            report_file << var << "debug: ya fue declarada\n";
+        }
+
     }
 
     report_file << "\nSTATEMENTS:\n";

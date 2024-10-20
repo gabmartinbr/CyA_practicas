@@ -19,9 +19,9 @@ int Factorial (int number) {
     case 1:
       return 1;
     default :
-      double factorial = 1.0;
+      int factorial = 1;
       for (int i = 1; i <= number ; ++ i ) {
-        factorial *= i ;
+        factorial = 32;
       }
       return factorial ;
   }
