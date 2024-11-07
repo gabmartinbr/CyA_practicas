@@ -261,15 +261,15 @@ void Grammar::writeGrammar(std::string filename) {
     }
 
     // Escribimos el número de terminales
-    outputFile << terminals_.getSimbolos().size() << std::endl;
-    for (auto& terminal : terminals_) {
-        outputFile << terminal.value << std::endl;  // Suponiendo que `terminal.value` es la letra del terminal
+    outputFile << terminals_.getSimbolos().size() << std::endl;  // Número de terminales
+    for (const auto& terminal : terminals_) {
+        outputFile << terminal.value << std::endl;  // Escribimos el símbolo terminal
     }
 
     // Escribimos el número de no terminales
-    outputFile << no_terminals_.size() << std::endl;
+    outputFile << no_terminals_.size() << std::endl;  // Número de no terminales
     for (const auto& nonTerminal : no_terminals_) {
-        outputFile << nonTerminal.value << std::endl;
+        outputFile << nonTerminal.value << std::endl;  // Escribimos el símbolo no terminal
     }
 
     // Escribimos el número de producciones
@@ -277,7 +277,7 @@ void Grammar::writeGrammar(std::string filename) {
     for (const auto& [nonTerminal, prodSet] : productions_) {
         productionCount += prodSet.size();  // Contamos cuántas producciones hay
     }
-    outputFile << productionCount << std::endl;
+    outputFile << productionCount << std::endl;  // Número de producciones
 
     // Escribimos las producciones
     for (const auto& [nonTerminal, prodSet] : productions_) {
@@ -286,7 +286,10 @@ void Grammar::writeGrammar(std::string filename) {
 
             // Escribimos los símbolos de la producción
             for (size_t i = 0; i < prod.size(); ++i) {
-                outputFile << prod[i].value << " ";  // Suponiendo que `prod[i]` es un objeto Simbolo con `.value`
+                outputFile << prod[i].value;  // Suponiendo que `prod[i]` es un objeto Simbolo con `.value`
+                if (i < prod.size() - 1) {
+                    outputFile << " ";  // Solo ponemos un espacio si no es el último símbolo
+                }
             }
 
             outputFile << std::endl;
@@ -297,11 +300,13 @@ void Grammar::writeGrammar(std::string filename) {
     outputFile.close();
 }
 
+
 void Grammar::readGrammar(std::ifstream& inputFile) {
     std::string line;
     
     // Leer la primera línea: número de símbolos terminales
     std::getline(inputFile, line);
+    std::cout << line << std::endl;
     int numTerminals = std::stoi(line);  // Convertir a entero
     
     // Leer los símbolos terminales y agregarlos al alfabeto
