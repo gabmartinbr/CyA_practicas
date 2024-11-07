@@ -58,6 +58,8 @@ public:
    */
   bool hasSimbolo(const Simbolo& simbolo) const;
 
+  auto begin() const { return simbolos_.begin(); }
+  auto end() const { return simbolos_.end(); }
   /**
    * @brief Sobrecarga del operador de salida para mostrar el alfabeto.
    * 

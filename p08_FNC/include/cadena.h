@@ -4,6 +4,7 @@
 #include <string>
 #include <set>
 #include <vector>
+#include <algorithm>
 #include "alfabeto.h"
 #include "simbolo.h"
 
@@ -14,7 +15,7 @@ private:
   Alfabeto alfabeto_;  ///< Alfabeto correspondiente a la cadena.
 
 public:
-  static const Simbolo CAD_VACIA; ///< Definición de cadena vacía.
+  static const Cadena CAD_VACIA; ///< Definición de cadena vacía.
 
   /**
    * @brief Constructor por defecto de la clase Cadena.
@@ -28,7 +29,7 @@ public:
    * @param alfabeto Alfabeto al que pertenecen los símbolos.
    */
   Cadena(const std::vector<Simbolo>& simbolos, const Alfabeto& alfabeto);
-  
+  Cadena(const std::vector<Simbolo>& simbolos);
   /**
    * @brief Getter para obtener la cadena.
    * 
@@ -103,6 +104,7 @@ public:
    * @return false Si esta cadena no es igual que la otra.
    */
   bool operator==(const Cadena& otra) const;
+  bool operator==(const Simbolo& simbolo) const;
 
   /**
    * @brief Sobrecarga del operador · para concatenar cadenas
@@ -122,13 +124,27 @@ public:
    */
   friend std::ostream& operator<<(std::ostream& os, const Cadena& cadena);
 
+// Operador [] para acceder a los elementos
+    Simbolo operator[](size_t index) const {
+        return cadena_[index]; // Asegúrate de que el índice esté dentro del rango
+    }
 
+    size_t size() const {
+        return cadena_.size();
+    }
 
   // metodo de si una cadena es palindroma y poner true o false en archivo
   bool isPalindroma();
   // metodo de potencia de una cadena
   Cadena getPotencia(int indice);
   // metodo de suprimir las cadenas de long i de sufijos y prefijos y mostrarlos todos juntos
+
+  Cadena removeSymbol(const Simbolo& symbol) const;
+
+    // Método constante para acceder a un símbolo por índice
+  Simbolo& operator[](std::size_t index) {
+    return cadena_[index];
+  }
 };
 
 #endif  // CADENA_H

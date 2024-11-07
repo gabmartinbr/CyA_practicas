@@ -45,6 +45,10 @@ bool Simbolo::operator==(const Simbolo& otro) const {
   return simbolo_ == otro.simbolo_;
 }
 
+bool Simbolo::operator!=(const Simbolo& otro) const {
+  return simbolo_ != otro.simbolo_;
+}
+
 /**
  * @brief Sobrecarga del operador << para imprimir símbolos.
  * 

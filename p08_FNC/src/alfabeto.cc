@@ -1,4 +1,4 @@
-#include "alfabeto.h"
+#include "../include/alfabeto.h"
 
 /**
  * @brief Constructor por defecto de la clase Alfabeto.
@@ -45,11 +45,14 @@ const std::set<Simbolo>& Alfabeto::getSimbolos() const {
  * @throw std::invalid_argument Si el símbolo es vacío ('\0').
  */
 void Alfabeto::addSimbolo(const Simbolo& simbolo) {
-  if (simbolo.getSimbolo() != '\0') {
+  /*if (simbolo.getSimbolo() != '\0') {
     simbolos_.insert(simbolo);
   } else {
     throw std::invalid_argument("El símbolo no puede ser vacío para añadirse al alfabeto");
   }
+  */
+  simbolos_.insert(simbolo);
+
 }
 
 /**

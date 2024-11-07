@@ -12,12 +12,17 @@ private:
   char simbolo_; ///< Carácter que representa el símbolo.
 
 public:
+  std::string value;
   /**
    * @brief Constructor de la clase Simbolo.
    * 
    * @param simbolo Carácter que representa el símbolo.
    */
   Simbolo(char simbolo);
+  Simbolo(const std::string& val) : value(val) {}    
+    // Default constructor
+    Simbolo() : value("") {}
+
 
   /**
    * @brief Obtiene el símbolo como carácter.
@@ -43,6 +48,9 @@ public:
    * @return false En caso contrario.
    */
   bool operator==(const Simbolo& otro) const;
+
+  // Sobrecarga del operador !=
+  bool operator!=(const Simbolo& other) const;
   /**
    * @brief Sobrecarga del operador << para imprimir símbolos.
    * 

@@ -1,7 +1,7 @@
 #include "cadena.h"
 
 // definición de cadena vacía
-const Simbolo Cadena::CAD_VACIA = Simbolo('&');
+const Cadena Cadena::CAD_VACIA = Cadena(std::vector<Simbolo>{Simbolo('&')}, Alfabeto()); // Asegúrate de pasar el alfabeto adecuado aquí
 
 /**
  * @brief Constructor por defecto de la clase Cadena.
@@ -16,6 +16,9 @@ Cadena::Cadena() {}
  */
 Cadena::Cadena(const std::vector<Simbolo>& simbolos, const Alfabeto& alfabeto)
   : cadena_(simbolos), alfabeto_(alfabeto) {}
+
+Cadena::Cadena(const std::vector<Simbolo>& simbolos)
+  : cadena_(simbolos) {}
 
 /**
  * @brief Getter para obtener la cadena.
@@ -149,6 +152,10 @@ bool Cadena::operator==(const Cadena& otra) const {
     return this->getCadena() == otra.getCadena(); // Comparar los vectores de símbolos
 }
 
+bool Cadena::operator==(const Simbolo& simbolo) const {
+    return cadena_.size() == 1 && cadena_[0] == simbolo;
+}
+
 /**
  * @brief Sobrecarga del operador + para concatenar cadenas
  * 
@@ -204,4 +211,16 @@ Cadena Cadena::getPotencia(int indice) {
   }
 
   return potencia;
+}
+
+Cadena Cadena::removeSymbol(const Simbolo& symbol) const {
+  Alfabeto alfabeto = this->alfabeto_;
+        // Creamos una copia de la cadena original
+        std::vector<Simbolo> new_cadena = cadena_;
+
+        // Usamos erase-remove para eliminar todas las ocurrencias de `symbol` de la copia
+        new_cadena.erase(std::remove(new_cadena.begin(), new_cadena.end(), symbol), new_cadena.end());
+
+        // Devolvemos la nueva Cadena con el símbolo eliminado
+        return Cadena(new_cadena, alfabeto);  // Devuelve una nueva instancia de Cadena
 }
