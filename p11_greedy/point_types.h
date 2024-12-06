@@ -13,7 +13,7 @@ namespace CyA
   typedef std::pair<double, double> point;        // punto 2D
 
   typedef std::pair<point, point> line;           // linea
-  typedef std::vector<point> point_vector;        //swapfile
+  typedef std::vector<point> point_vector;        //
 
   typedef std::pair<point, point> arc;            // arco 
   typedef std::pair<double, arc> weighted_arc;    // arco pesado
