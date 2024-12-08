@@ -6,7 +6,7 @@
 
 namespace EMST {
   sub_tree::sub_tree(void) :
-    arcs(), points(), cost(0) {}
+    arcs_(), points_(), cost_(0) {}
 
   sub_tree::~sub_tree(void) {}
 
@@ -21,17 +21,17 @@ namespace EMST {
     points_.insert(p);
   }
 
-  bool sub_tree::contains(const CyA::point &p) {
+  bool sub_tree::contains(const CyA::point &p) const {
     return points_.find(p) != points_.end();
   }
 
   void sub_tree::merge(const sub_tree &st, const CyA::weighted_arc &a) {
-    arcs_.insert(arcs_.end(), st.arcs_.begin(), st.arcs_.end());
+    arcs_.insert(arcs_.end(), st.arcs_.begin(), st.arcs_.end());      // insertar nuevo arco,
     arcs_.push_back(a.second);
 
     points_.insert(st.points_.begin(), st.points_.end());
 
-    cost_ += a.first() + st.get_cost();
+    cost_ += a.first + st.get_cost();
   }
 
 }

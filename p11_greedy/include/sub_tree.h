@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "point_types."
+#include "point_types.h"
 
 namespace EMST {
   class sub_tree {
