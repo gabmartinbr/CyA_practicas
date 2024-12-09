@@ -1,6 +1,7 @@
 #include "point_types.h"
 #include "emst.h"
 #include "algorithm"
+#include <iomanip>
 
 namespace EMST { 
 
@@ -40,18 +41,21 @@ namespace EMST {
 
         emst_ = st[0].get_arcs();                           // st[0] es el árbol mínimo generador, guardado en emst_
     }
-    
 
-    // Método para escribir el árbol generador mínimo
+    // Método para escribir el árbol generador mínimo en el formato deseado
     void point_set::write_tree(std::ostream &os) const {
-        for (const auto &arc : emst_) {                     // para cada arco del árbol, se escribe sus extremos y distancia
-            os << arc.second.first <<
-            " - " << 
-            arc.second.second << 
-            " (dist: " << arc.first << ")" << 
-            std::endl;
+        for (const auto &arc : emst_) { // para cada arco del árbol
+            os << "(" << std::setw(3) << arc.first.first << ", " 
+            << std::setw(3) << arc.first.second << ") -> "
+            << "(" << std::setw(3) << arc.second.first << ", " 
+            << std::setw(3) << arc.second.second << ")"
+            << std::endl;
         }
+        // Agregar el coste total 
+        os << std::endl << compute_cost() << std::endl;
     }
+
+
 
     // Método para escribir los puntos
     void point_set::write(std::ostream &os) const {
@@ -62,6 +66,29 @@ namespace EMST {
             std::endl;
         }
     }
+
+    void point_set::write_dot_format(std::ostream &os) const {
+    // definición del archivo .dot
+    os << "graph {\n";
+
+    // crear nodos con sus posiciones
+    int index = 0;  // Índice para los puntos
+    for (const auto &arc : emst_) {
+        // Escribir la posición del primer punto del arco
+        os << "  " << index << " [pos = \"" << arc.first.first << "," << arc.first.second << "!\"]\n";
+        // Escribir la posición del segundo punto del arco
+        os << "  " << (index + 1) << " [pos = \"" << arc.second.first << "," << arc.second.second << "!\"]\n";
+
+        // Escribir la conexión entre los dos puntos
+        os << "  " << index << " -- " << (index + 1) << "\n";
+
+        // Incrementar el índice para el siguiente par de puntos
+        index += 2;
+    }
+
+    // Cerrar la definición del archivo .dot
+    os << "}\n";
+}
 
     // Método para calcular todas las aristas posibles y ordenarlas
     void point_set::compute_arc_vector(CyA::arc_vector &av) const {

@@ -19,6 +19,7 @@ namespace EMST {
 
         void write_tree(std::ostream &os) const;
         void write(std::ostream &os) const;
+        void write_dot_format(std::ostream &os) const;
 
         inline const CyA::tree& get_tree(void) const { return emst_; }
         inline const CyA::point_vector& get_points(void) const { return *this; }

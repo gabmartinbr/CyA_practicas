@@ -3,21 +3,22 @@
 #include "emst.h"
 #include "point_types.h"
 
-int main() {
-    // Leer los puntos desde un archivo o crearlos manualmente
-    CyA::point_vector points;
+int main(int argc, char* argv[]) {
+    // verificar al menos un parámetro, archivo de entrada
+    if (argc < 2) {
+        std::cerr << "Error: debes proporcionar un archivo de entrada. " << std::endl;
+        return 1;
+    }
 
-    // Si deseas leer desde un archivo:
-    std::ifstream input("data/input1.txt");
+    // Leer los puntos desde el archivo proporcionado
+    CyA::point_vector points;
+    std::ifstream input(argv[1]);
     if (input.is_open()) {
         input >> points;
         input.close();
     } else {
-        // Si no se pudo abrir el archivo, puedes agregar puntos manualmente
-        points.push_back(CyA::point(0.0, 0.0));
-        points.push_back(CyA::point(1.0, 0.0));
-        points.push_back(CyA::point(1.0, 1.0));
-        points.push_back(CyA::point(0.0, 1.0));
+        std::cerr << "Error: no se pudo abrir el archivo de entrada: " << argv[1] << std::endl;
+        return 1;
     }
 
     // Crear el objeto point_set con los puntos leídos
@@ -26,20 +27,27 @@ int main() {
     // Calcular el Árbol Generador Mínimo (EMST)
     ps.EMST();
 
-    // Imprimir el árbol generador mínimo
-    std::cout << "Árbol Generador Mínimo:" << std::endl;
-    ps.write_tree(std::cout);
+    // Verificar opcion -d
+    bool create_dot = false;
+    if (argc > 2 && std::string(argv[2]) == "-d") {
+        create_dot = true;
+    }
 
-    // Imprimir el costo total del árbol generador mínimo
-    std::cout << "Costo total del EMST: " << ps.get_cost() << std::endl;
-
-    // Opcionalmente, guardar el árbol en un archivo
-    std::ofstream output("emst_result.txt");
-    if (output.is_open()) {
-        ps.write_tree(output);
-        output.close();
+    // Si la opción -d está presente, guardar el resultado en un archivo .dot
+    if (create_dot) {
+        std::ofstream output("data/output.dot");
+        if (output.is_open()) {
+            ps.write_dot_format(output);
+            output.close();
+            std::cout << "El árbol fue guardado en formato .dot en 'output.dot'." << std::endl;
+        } else {
+            std::cerr << "Error al abrir el archivo para guardar el archivo .dot." << std::endl;
+            return 1;
+        }
     } else {
-        std::cerr << "Error al abrir el archivo para guardar el resultado." << std::endl;
+        // Si no se pasa la opción -d, solo mostrar el árbol en la consola
+        std::cout << "Árbol Generador Mínimo (EMST): " << std::endl;
+        ps.write_tree(std::cout);
     }
 
     return 0;
