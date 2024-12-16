@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
+#include <utility>
 #include <iostream>
 
-namespace CyA
-{
+namespace CyA {
         /**
          * @brief 
          * 
@@ -46,7 +46,7 @@ namespace CyA
                  * 
                  * @param points 
                  */
-                point_set(const vector<point> &points);
+                point_set(const point_vector &points);
                 /**
                  * @brief Destroy the point set object
                  * 
@@ -72,6 +72,8 @@ namespace CyA
                  * @param os 
                  */
                 void write(std::ostream &os) const;
+
+                void write_dot(std::ostream &os) const;
 
                 /**
                  * @brief Get the hull object

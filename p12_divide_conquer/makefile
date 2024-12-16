@@ -4,7 +4,7 @@ CXXFLAGS = -std=c++23 -Wall -Wextra
 SRC_DIR = src
 INC_DIR = include
 BUILD_DIR = build
-EXECUTABLE = emst
+EXECUTABLE = quick_hull
 
 # Archivos fuente
 SRCS = $(wildcard $(SRC_DIR)/*.cc)
